@@ -10,7 +10,6 @@ import { cacheTrackSource, getTrackSource } from '@/utils/db';
 import { isCreateMpris, isCreateTray } from '@/utils/platform';
 import { Howl, Howler } from 'howler';
 import shuffle from 'lodash/shuffle';
-import { decode as base642Buffer } from '@/utils/base64';
 
 const PLAY_PAUSE_FADE_DURATION = 200;
 
@@ -413,73 +412,9 @@ export default class {
       });
     }
   }
-  async _getAudioSourceFromUnblockMusic(track) {
+  async _getAudioSourceFromUnblockMusic() {
     console.debug(`[debug][Player.js] _getAudioSourceFromUnblockMusic`);
-
-    if (
-      process.env.IS_ELECTRON !== true ||
-      store.state.settings.enableUnblockNeteaseMusic === false
-    ) {
-      return null;
-    }
-
-    /**
-     *
-     * @param {string=} searchMode
-     * @returns {import("@unblockneteasemusic/rust-napi").SearchMode}
-     */
-    const determineSearchMode = searchMode => {
-      /**
-       * FastFirst = 0
-       * OrderFirst = 1
-       */
-      switch (searchMode) {
-        case 'fast-first':
-          return 0;
-        case 'order-first':
-          return 1;
-        default:
-          return 0;
-      }
-    };
-
-    const retrieveSongInfo = await ipcRenderer.invoke(
-      'unblock-music',
-      store.state.settings.unmSource,
-      track,
-      {
-        enableFlac: store.state.settings.unmEnableFlac || null,
-        proxyUri: store.state.settings.unmProxyUri || null,
-        searchMode: determineSearchMode(store.state.settings.unmSearchMode),
-        config: {
-          'joox:cookie': store.state.settings.unmJooxCookie || null,
-          'qq:cookie': store.state.settings.unmQQCookie || null,
-          'ytdl:exe': store.state.settings.unmYtDlExe || null,
-        },
-      }
-    );
-
-    if (store.state.settings.automaticallyCacheSongs && retrieveSongInfo?.url) {
-      // 对于来自 bilibili 的音源
-      // retrieveSongInfo.url 是音频数据的base64编码
-      // 其他音源为实际url
-      const url =
-        retrieveSongInfo.source === 'bilibili'
-          ? `data:application/octet-stream;base64,${retrieveSongInfo.url}`
-          : retrieveSongInfo.url;
-      cacheTrackSource(track, url, 128000, `unm:${retrieveSongInfo.source}`);
-    }
-
-    if (!retrieveSongInfo) {
-      return null;
-    }
-
-    if (retrieveSongInfo.source !== 'bilibili') {
-      return retrieveSongInfo.url;
-    }
-
-    const buffer = base642Buffer(retrieveSongInfo.url);
-    return this._getAudioSourceBlobURL(buffer);
+    return null;
   }
   _getAudioSource(track) {
     return this._getAudioSourceFromCache(String(track.id))

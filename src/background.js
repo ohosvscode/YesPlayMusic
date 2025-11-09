@@ -9,6 +9,7 @@ import {
   nativeTheme,
   screen,
 } from 'electron';
+app.commandLine.appendSwitch('disable-gpu');
 import {
   isWindows,
   isMac,
