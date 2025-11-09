@@ -24,7 +24,7 @@ export class WebBaseAbility extends UIAbility implements WebProxy {
   protected windowStage: window.WindowStage | undefined = undefined;
   protected nativeContext: NativeContext =
     JsBindingUtils.getNativeContext(ContextType.kMainProcess);
-  protected hideTitleBar: boolean = true;
+  protected hideTitleBar: boolean = false;
   protected originWindowId: number = -1;
   protected useDarkMode: boolean = false;
   protected appId: string = '';

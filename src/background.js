@@ -246,6 +246,9 @@ class Background {
 
     this.window = new BrowserWindow(options);
 
+    // hide menu bar on Microsoft Windows、Linux and openharmony
+    this.window.setMenuBarVisibility(false);
+
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // Load the url of the dev server if in development mode
       this.window.loadURL(
@@ -261,8 +264,6 @@ class Background {
           : 'http://localhost:27232'
       );
     }
-
-    this.window.webContents.openDevTools();
   }
 
   checkForUpdates() {
