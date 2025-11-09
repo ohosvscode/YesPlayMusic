@@ -194,5 +194,8 @@ export function initIpcMain(win, store, trayEventEmitter) {
     ipcMain.on('updateTrayLikeState', (_, isLiked) => {
       trayEventEmitter.emit('updateLikeState', isLiked);
     });
+    ipcMain.on('updateTrayIcon', () => {
+      trayEventEmitter.emit('updateIcon');
+    });
   }
 }
