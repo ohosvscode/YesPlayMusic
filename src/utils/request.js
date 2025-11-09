@@ -2,17 +2,7 @@ import router from '@/router';
 import { doLogout, getCookie } from '@/utils/auth';
 import axios from 'axios';
 
-let baseURL = '';
-// Web 和 Electron 跑在不同端口避免同时启动时冲突
-if (process.env.IS_ELECTRON) {
-  if (process.env.NODE_ENV === 'production') {
-    baseURL = process.env.VUE_APP_ELECTRON_API_URL;
-  } else {
-    baseURL = process.env.VUE_APP_ELECTRON_API_URL_DEV;
-  }
-} else {
-  baseURL = process.env.VUE_APP_NETEASE_API_URL;
-}
+let baseURL = 'https://server.xhhzs.cn';
 
 const service = axios.create({
   baseURL,
@@ -21,6 +11,7 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(function (config) {
+  console.log('Request:', config);
   if (!config.params) config.params = {};
   if (baseURL.length) {
     if (
@@ -53,16 +44,17 @@ service.interceptors.request.use(function (config) {
   if (['HTTP', 'HTTPS'].includes(proxy.protocol)) {
     config.params.proxy = `${proxy.protocol}://${proxy.server}:${proxy.port}`;
   }
-
   return config;
 });
 
 service.interceptors.response.use(
   response => {
+    console.log('Response:', response);
     const res = response.data;
     return res;
   },
   async error => {
+    console.error('Request error:', error);
     /** @type {import('axios').AxiosResponse | null} */
     let response;
     let data;

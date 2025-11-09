@@ -1,0 +1,59 @@
+{
+  "app": {
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.0.5(17)",
+        "compatibleSdkVersionStage": "release",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "nativeLib": {
+            "collectAllLibs": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/naily/.ohos/config/default_ohos_hap_x75oz5eCAeGzqXZlgNSnGEmAw6qLSYd8-QkDT7PkX4g=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B10BD066828FB158D55A1710E2BB773A7B83E8FF2B77A6BBEF8D53A4FDD6AA1FD256C954236D522",
+          "profile": "/Users/naily/.ohos/config/default_ohos_hap_x75oz5eCAeGzqXZlgNSnGEmAw6qLSYd8-QkDT7PkX4g=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/naily/.ohos/config/default_ohos_hap_x75oz5eCAeGzqXZlgNSnGEmAw6qLSYd8-QkDT7PkX4g=.p12",
+          "storePassword": "0000001B515EDEA5671A686C4BFCCB81F338027FB677D409B3876F89D4BE5FDF63B94892C0610757DBBFA6"
+        }
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "electron",
+      "srcPath": "./electron",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web_engine",
+      "srcPath": "./web_engine"
+    }
+  ]
+}

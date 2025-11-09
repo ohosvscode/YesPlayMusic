@@ -10,7 +10,7 @@
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build -p never",
     "electron:build-all": "vue-cli-service electron:build -p never -mwl",
-    "electron:build-mac": "vue-cli-service electron:build -p never -m",
+    "electron:build-mac": "vue-cli-service electron:build -p never -m && node scripts/mac-only.js",
     "electron:build-win": "vue-cli-service electron:build -p never -w",
     "electron:build-linux": "vue-cli-service electron:build -p never -l",
     "electron:serve": "vue-cli-service electron:serve",

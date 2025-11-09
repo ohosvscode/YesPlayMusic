@@ -177,6 +177,7 @@ class Background {
     const appearance = this.store.get('settings.appearance');
     const showLibraryDefault = this.store.get('settings.showLibraryDefault');
 
+    /** @type {Electron.BrowserWindowConstructorOptions} */
     const options = {
       width: this.store.get('window.width') || 1440,
       height: this.store.get('window.height') || 840,
@@ -194,6 +195,7 @@ class Background {
         nodeIntegration: true,
         enableRemoteModule: true,
         contextIsolation: false,
+        devTools: true,
       },
       backgroundColor:
         ((appearance === undefined || appearance === 'auto') &&
@@ -244,9 +246,6 @@ class Background {
 
     this.window = new BrowserWindow(options);
 
-    // hide menu bar on Microsoft Windows and Linux
-    this.window.setMenuBarVisibility(false);
-
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // Load the url of the dev server if in development mode
       this.window.loadURL(
@@ -254,7 +253,6 @@ class Background {
           ? `${process.env.WEBPACK_DEV_SERVER_URL}/#/library`
           : process.env.WEBPACK_DEV_SERVER_URL
       );
-      if (!process.env.IS_TEST) this.window.webContents.openDevTools();
     } else {
       createProtocol('app');
       this.window.loadURL(
@@ -263,6 +261,8 @@ class Background {
           : 'http://localhost:27232'
       );
     }
+
+    this.window.webContents.openDevTools();
   }
 
   checkForUpdates() {
